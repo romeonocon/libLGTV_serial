@@ -4,7 +4,7 @@
 import sys
 from libLGTV_serial import LGTV
 
-model = '42LK450'                    # Change this to your TV's model
+model = '55LX9500'                    # Change this to your TV's model
 
 # Change this to the serial port you're using
 # On Linux it might look like '/dev/ttyS0'
@@ -12,7 +12,7 @@ model = '42LK450'                    # Change this to your TV's model
 serial_port = "\\.\COM4"
 
 # Verify passed command
-if len(sys.argv) != 2: 
+if len(sys.argv) != 2:
     print('Usage: {0} <command>'.format(sys.argv[0]))
     print('Example: {0} --togglepower'.format(sys.argv[0]))
     sys.exit(1)

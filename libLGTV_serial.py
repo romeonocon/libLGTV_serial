@@ -3,7 +3,7 @@
 import serial
 import os
 import time
-import tempfile 
+import tempfile
 from filelock import FileLock
 # from pprint import pprint
 
@@ -114,7 +114,7 @@ reverse_code_map = {
     'LC7D_etc': ('LC7D', 'LC7DC', 'PC5D', 'PC5DC'),
     'LE5300_etc': ('LE5300', 'LE5500', 'LE7300', 'LE530C', 'LD420', 'LD450', 'LD450C',
                     'LD520', 'LD520C', 'LD630', 'LW5600', 'LW5700', 'LW6500', 'LW9800',
-                    'LV3700', 'LV5400', 'LV5500', 'LV9500', 'LK530', 'LK550', 'PZ750',
+                    'LV3700', 'LV5400', 'LV5500', 'LV9500', 'LX9500', 'LK530', 'LK550', 'PZ750',
                     'PZ950', 'PZ950U'),
     '01C_etc': ('01C', '01C-BA'),
     '02C_etc': ('02C', '02C-BA', '02C-BH')
@@ -126,7 +126,7 @@ for suffix_codes, suffixes in reverse_code_map.items():
         all_codes[suffix] = actual_codes[suffix_codes]
 
 
-class LGTV:    
+class LGTV:
     def __init__(self, model, port):
         self.model = model.upper()
 
@@ -150,7 +150,7 @@ class LGTV:
     def get_port(self):
         return serial.Serial(self.port, 9600, 8, serial.PARITY_NONE,
                 serial.STOPBITS_ONE, xonxoff=0, rtscts=0, timeout=1)
-                                    
+
     def get_port_ensured(self):
         ser = None
         while ser == None:
@@ -159,7 +159,7 @@ class LGTV:
             except serial.serialutil.SerialException:
                 time.sleep(0.07)
         return ser
-    
+
     def status_code(self, code):
         return code[:-2] + b'ff'
 
@@ -194,7 +194,7 @@ class LGTV:
             return self.query_data(self.lookup(command))
         else:
             return self.query_full(self.lookup(command)) and True
-       
+
     def is_status(self, command):
         return command.endswith('status') or command.endswith('level')
 
@@ -241,7 +241,7 @@ class LGTV:
             response = self.query(command)
         self.connection.close()
         return response
-            
+
     def available_commands(self):
         print("Some features (such as a 4th HDMI port) might not be available for your TV model")
         commands = self.codes.copy()
@@ -256,8 +256,8 @@ class LGTV:
 
     def add_toggle(self, command, state0, state1):
         self.toggles['toggle' + command] = (state0, state1)
-        
+
     def debounce(self, command, wait_secs=0.5):
         self.debounces[command] = wait_secs
-            
+
 # end class LGTV
